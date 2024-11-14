@@ -1,0 +1,39 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('iris.csv') 
+# Calculate mean, median, and mode 
+central_tendencies = {
+    "Feature": ["sepal_length", "sepal_width", "petal_length", "petal_width"],
+    "Mean": [df["sepal_length"].mean(), df["sepal_width"].mean(), df["petal_length"].mean(), df["petal_width"].mean()],
+    "Median": [df["sepal_length"].median(), df["sepal_width"].median(), df["petal_length"].median(), df["petal_width"].median()],
+    "Mode": [df["sepal_length"].mode()[0], df["sepal_width"].mode()[0], df["petal_length"].mode()[0], df["petal_width"].mode()[0]]
+}
+
+# Create a DataFrame to display the central tendencies
+central_tendencies_df = pd.DataFrame(central_tendencies)
+
+# Visualizing the differences using histograms and marking mean, median, and mode
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+features = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+
+for i, feature in enumerate(features):
+    ax = axes[i // 2, i % 2]
+    sns.histplot(df[feature], kde=True, ax=ax)
+    ax.axvline(df[feature].mean(), color='red', linestyle='--', label='Mean')
+    ax.axvline(df[feature].median(), color='blue', linestyle='--', label='Median')
+    ax.axvline(df[feature].mode()[0], color='green', linestyle='--', label='Mode')
+    ax.set_title(f'Distribution of {feature}')
+    ax.legend()
+
+plt.tight_layout()
+plt.show()
+
+# Display the calculated central tendencies
+print(central_tendencies_df)
+
+        Feature      Mean  Median  Mode
+0  sepal_length  5.843333    5.80   5.0
+1   sepal_width  3.054000    3.00   3.0
+2  petal_length  3.758667    4.35   1.5
+3   petal_width  1.198667    1.30   0.2
